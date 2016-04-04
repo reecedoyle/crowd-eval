@@ -19,7 +19,7 @@ class UclResultsSpider(scrapy.Spider):
 			text = sel.extract()
 			items.append(UclItem())
 			items[count]['title'] = HTMLParser.HTMLParser().unescape(re.sub('<[^<]+?>', '', text)).lstrip().rstrip()
-			items[count]['link'] = re.search('title="(.*)"', text).group(1)
+			items[count]['link'] = HTMLParser.HTMLParser().unescape(re.search('href="(.*?)"', text).group(1))
 			items[count]['rank'] = count + 1
 			items[count]['topic'] = topic_no
 			count += 1

@@ -8,7 +8,7 @@ import re
 class ResultsSpider(scrapy.Spider):
 	name = "duckResultsScraper"
 	allowed_domains = ["duckduckgo.com"]
-	start_urls = [['https://duckduckgo.com/html/?q='+'+'.join(line.split())+'+site%3Aucl.ac.uk' for line in open('/Users/reecedoyle/Documents/4th_Year/COMPM052/crowd-eval/queries.txt', 'r')][3]]
+	start_urls = ['https://duckduckgo.com/html/?q='+'+'.join(line.split())+'+site%3Aucl.ac.uk' for line in open('/Users/reecedoyle/Documents/4th_Year/COMPM052/crowd-eval/queries.txt', 'r')][11:]
 
 	def parse(self, response):
 		#print 'hello'
@@ -19,7 +19,7 @@ class ResultsSpider(scrapy.Spider):
 			text = sel.extract()
 			items.append(DuckDuckGoItem())
 			items[count]['title'] = HTMLParser.HTMLParser().unescape(re.sub('<[^<]+?>', '', text)).lstrip().rstrip()
-			items[count]['link'] = re.search('href="(.*)"', text).group(1)
+			items[count]['link'] = HTMLParser.HTMLParser().unescape(re.search('href="(.*?)"', text).group(1))
 			items[count]['rank'] = count + 1
 			items[count]['topic'] = topic_no
 			count += 1
