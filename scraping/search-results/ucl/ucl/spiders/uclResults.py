@@ -15,7 +15,7 @@ class UclResultsSpider(scrapy.Spider):
 		topic_no = self.getTopicNo(response.url)
 		items = []  # [[title, link, snippet]]
 		count = 0
-		for sel in response.xpath('//*[(@id = "fb-results")]//h3'):
+		for sel in response.xpath('//*[(@id = "fb-results")]//h3/a'):
 			text = sel.extract()
 			items.append(UclItem())
 			items[count]['title'] = HTMLParser.HTMLParser().unescape(re.sub('<[^<]+?>', '', text)).lstrip().rstrip()

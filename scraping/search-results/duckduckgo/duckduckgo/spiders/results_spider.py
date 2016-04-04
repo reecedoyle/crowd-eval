@@ -8,7 +8,7 @@ import re
 class ResultsSpider(scrapy.Spider):
 	name = "duckResultsScraper"
 	allowed_domains = ["duckduckgo.com"]
-	start_urls = ['https://duckduckgo.com/html/?q='+'+'.join(line.split())+'+site%3Aucl.ac.uk' for line in open('/Users/reecedoyle/Documents/4th_Year/COMPM052/crowd-eval/queries.txt', 'r')]
+	start_urls = [['https://duckduckgo.com/html/?q='+'+'.join(line.split())+'+site%3Aucl.ac.uk' for line in open('/Users/reecedoyle/Documents/4th_Year/COMPM052/crowd-eval/queries.txt', 'r')][3]]
 
 	def parse(self, response):
 		#print 'hello'

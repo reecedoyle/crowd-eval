@@ -9,17 +9,27 @@ import MySQLdb
 
 class UclPipeline(object):
 	def open_spider(self, spider):
-		self.db = MySQLdb.connect(host="localhost",    # your host, usually localhost
-					 user="scraper",         # your username
-					 passwd="scraper",  # your password
-					 db="CrowdEval")        # name of the data base
-		self.cursor = self.db.cursor()
+		try:
+			self.db = MySQLdb.connect(host="localhost",    # your host, usually localhost
+						 user="scraper",         # your username
+						 passwd="scraper",  # your password
+						 db="CrowdEvalBLEH")        # name of the data base
+			self.cursor = self.db.cursor()
+		except Exception:
+			self.csv = True  # write to csv because no database
+			self.filename = "scraped.csv"
 
 	def process_item(self, item, spider):
-		self.cursor.execute("INSERT INTO UCLResults (topic, rank, title, link, snippet) VALUES (%s, %s, %s, %s, %s)", [item['topic'], item['rank'], item['title'], item['link'], item['snippet']])
-		self.db.commit()
-		print 'writing to db...'
+		if self.csv:
+			with open(self.filename, 'a') as f:
+				f.write('\t'.join([str(item['topic']), str(item['rank']), item['title'].encode('utf-8'), item['link'].encode('utf-8'), item['snippet'].encode('utf-8')])+'\n')
+				print 'writing to csv...'
+		else:
+			self.cursor.execute("INSERT INTO UCLResults (topic, rank, title, link, snippet) VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE title=%s, link=%s, snippet=%s", [item['topic'], item['rank'], item['title'], item['link'], item['snippet'], item['title'], item['link'], item['snippet']])
+			self.db.commit()
+			print 'writing to db...'
 		return item
 
 	def close_spider(self, spider):
-		self.db.close()
+		if not self.csv:
+			self.db.close()

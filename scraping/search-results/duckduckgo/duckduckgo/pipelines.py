@@ -10,17 +10,26 @@ import MySQLdb
 
 class DuckDuckGoPipeline(object):
 	def open_spider(self, spider):
-		self.db = MySQLdb.connect(host="localhost",    # your host, usually localhost
+		try:
+			self.db = MySQLdb.connect(host="localhost",    # your host, usually localhost
                      user="scraper",         # your username
                      passwd="scraper",  # your password
                      db="CrowdEval")        # name of the data base
-		self.cursor = self.db.cursor()
+			self.cursor = self.db.cursor()
+			self.csv = False
+		except Exception:
+			self.csv = True  # write to csv because no database
+			self.filename = "scraped.csv"
 
 	def process_item(self, item, spider):
-		self.cursor.execute("INSERT INTO DuckResults (topic, rank, title, link, snippet) VALUES (%s, %s, %s, %s, %s)", [item['topic'], item['rank'], item['title'], item['link'], item['snippet']])
-		self.db.commit()
-		print 'hello'
+		if self.csv:
+			with open(self.filename, 'a') as f:
+				f.write('\t'.join([str(item['topic']), str(item['rank']), item['title'].encode('utf-8'), item['link'].encode('utf-8'), item['snippet'].encode('utf-8')])+'\n')
+		else:
+			self.cursor.execute("INSERT INTO DuckResults (topic, rank, title, link, snippet) VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE title=%s, link=%s, snippet=%s", [item['topic'], item['rank'], item['title'], item['link'], item['snippet'], item['title'], item['link'], item['snippet']])
+			self.db.commit()
 		return item
 
 	def close_spider(self, spider):
-		self.db.close()
+		if not self.csv:
+			self.db.close()
