@@ -13,7 +13,7 @@ class UclPipeline(object):
 			self.db = MySQLdb.connect(host="localhost",    # your host, usually localhost
 						 user="scraper",         # your username
 						 passwd="scraper",  # your password
-						 db="CrowdEvalBLEH")        # name of the data base
+						 db="CrowdEval")        # name of the data base
 			self.cursor = self.db.cursor()
 		except Exception:
 			self.csv = True  # write to csv because no database
