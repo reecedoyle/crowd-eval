@@ -15,6 +15,7 @@ class UclPipeline(object):
 						 passwd="scraper",  # your password
 						 db="CrowdEval")        # name of the data base
 			self.cursor = self.db.cursor()
+			self.csv = False
 		except Exception:
 			self.csv = True  # write to csv because no database
 			self.filename = "scraped.csv"
