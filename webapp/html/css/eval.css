@@ -1,0 +1,35 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400);
+
+html,
+body {
+  height: 100%;
+  background-color: #446;
+}
+
+.topic{
+	position: fixed;
+	top: 0;
+	padding-top: 10px;
+	color: #eee;
+	background: #446;
+	z-index:3;
+	right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    width: 95%;
+}
+
+.page-header{
+	margin-bottom: 0;
+	padding-top: 1px;
+}
+
+.results{
+	padding-top: 20px;
+	z-index:2;
+}
+.top-buttons
+{
+    display:inline;
+}

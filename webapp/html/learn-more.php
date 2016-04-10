@@ -1,10 +1,7 @@
-<?php
-	require_once('functions.php');
-	newSession();
-?>
 <html>
 	<head>
 		<title>Crowd Eval</title>
+		<link rel='shortcut icon' href='favicon.ico' type='image/x-icon'/ >
 		<link rel="stylesheet" type="text/css" href="css/reset.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700' rel='stylesheet' type='text/css'>	
@@ -21,18 +18,18 @@
 							<nav>
 								<ul class="nav masthead-nav">
 									<li><a href="/">Home</a></li>
-									<li class="active"><a href="/eval.php">Evaluate</a></li>
-									<li><a href="#">Learn More</a></li>
+									<li><a href="/eval.php">Evaluate</a></li>
+									<li class="active"><a href="#">Learn More</a></li>
 								</ul>
 							</nav>
 						</div>
 					</div>
 					<div class="inner cover">
-						<h1 class="cover-heading">Thanks!</h1>
-						<p class="lead">You have answered all of the questions, we really appreciate your help with our project!</p>
-						<p class="lead">You can learn more about this project on our Github page.</p>
+						<h1 class="cover-heading">So, how can you help us?</h1>
+						<p class="lead">You are going to be presented with a question; we would like you to find the answer by clicking the search engine results presented to you.<br>Easy, right?
+							<br><br>When you're done, make sure to save your choices by hitting:<br><i class="fa fa-arrow-right" style="color:#449D44;"></i> to <span style="color:#449D44;">keep going</span>,<br><i class="fa fa-home" style="color:#31B0D5;"></i> to <span style="color:#31B0D5;">head home</span></p>
 						<p class="lead">
-							<a href="https://github.com/reecedoyle/crowd-eval" class="github"><i class="fa fa-github fa-2x"></i></a>
+							<a href="/eval.php" class="btn btn-lg btn-success">I'm ready!</a>
 						</p>
 					</div>
 				</div>

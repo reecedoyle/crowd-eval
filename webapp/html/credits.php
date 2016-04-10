@@ -1,7 +1,7 @@
 <?php 
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
-	require_once('functions.php');
+	require_once('../inc/functions.php');
 	//echo "Session before update: ",print_r($_SESSION, true),"<br>--------<br>";
 	updateSession();
 	//echo "Session after update: ",print_r($_SESSION, true),"<br>--------<br>";
@@ -18,36 +18,54 @@
 	</head>
 	<body>
 		<?php
-			if ($_SERVER["REQUEST_METHOD"] == "POST") { // TODO add elastic search stuff in here too
-				$ucl = $_POST['UCL'];
-				$duck = $_POST['DuckDuckGo'];
+			if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				$topic = $_POST['topic'];
-				$ranker = "";
-				if ($ucl > $duck) {
-					$ranker = "UCL";
+				$clicks = array( // point to current position in results for each ranker
+					"DuckDuckGo" => $_POST['DuckDuckGo'],
+					"UCL" => $_POST['UCL'],
+					"Cloud" => $_POST['Cloud'],
+					);
+				$credits = array(
+					"DuckDuckGo" => 0,
+					"UCL" => 0,
+					"Cloud" => 0,
+					);
+				// assign credit to each ranker proportional to number of rankers than which they got more clicks
+				foreach ($clicks as $ranker1 => $click1) {
+					foreach ($clicks as $ranker2 => $click2) {
+						if ($click1 > $click2 && $ranker1 != $ranker2) {
+							$credits[$ranker1] ++;
+						}
+					}
 				}
-				if ($duck > $ucl) {
-					$ranker = "DuckDuckGo";
+				/* debug:
+				foreach ($credits as $ranker => $credit) {
+					echo '<script type="text/javascript">console.log("'.$ranker.': '.$credit.'");</script>';
 				}
-				echo '<script type="text/javascript">console.log("UCL: '.$ucl.'");</script>';
-				echo '<script type="text/javascript">console.log("Duck: '.$duck.'");</script>';
-				echo '<script type="text/javascript">console.log("Ranker: '.$ranker.'");</script>';
-				if(!empty($ranker)){
+				*/
+				foreach ($credits as $ranker => $credit) {
+					if ($credit == 0) {
+						continue;
+					}
 					try {
 						$conn = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass);
 						$sql = 'INSERT INTO Feedback
-										(source, topic, credit) VALUES (:ranker, :topic, 1)
+										(source, topic, credit) VALUES (:ranker, :topic, :cred)
 										ON DUPLICATE KEY
 										UPDATE
-										credit = (@cur_credit := credit) + 1';
+										credit = (@cur_credit := credit) + :cred';
 						$stmt = $conn->prepare($sql);
 						$stmt->bindParam(':ranker', $ranker);
 						$stmt->bindParam(':topic', $topic);
+						$stmt->bindParam(':cred', $credit);
 						$stmt->execute();
 					}
 					catch (PDOException $pe) {
 						die("Could not connect to the database $db_name: " . $pe->getMessage());
 					}
+				}
+				if(empty($_POST['continue'])){
+					echo '<script>window.location.replace("/");</script>';
 				}
 				echo '<script>window.location.replace("eval.php");</script>';
 			}
