@@ -25,18 +25,18 @@
 							<nav>
 								<ul class="nav masthead-nav">
 									<li><a href="/">Home</a></li>
-									<li><a href="/eval.php">Evaluate</a></li>
-									<li class="active"><a href="#">Learn More</a></li>
+									<li class="active"><a href="#">Evaluate</a></li>
+									<li><a href="/learn-more.php">Learn More</a></li>
 								</ul>
 							</nav>
 						</div>
 					</div>
 					<div class="inner cover">
-						<h1 class="cover-heading">So, how can you help us?</h1>
-						<p class="lead">You are going to be presented with a question; we would like you to find the answer by clicking the search engine results presented to you.<br>Easy, right?
-							<br><br>When you're done, make sure to save your choices by hitting:<br><i class="fa fa-arrow-right" style="color:#449D44;"></i> to <span style="color:#449D44;">keep going</span>,<br><i class="fa fa-home" style="color:#31B0D5;"></i> to <span style="color:#31B0D5;">head home</span></p>
+						<h1 class="cover-heading">Steady on!</h1>
+						<p class="lead">We think it's best if you <a href="/learn-more.php">learn more</a> before starting.<br><br>
+							Think you're ready?</p>
 						<p class="lead">
-							<a href="/eval.php" class="btn btn-lg btn-success">I'm ready!</a>
+							<a href="/eval.php" class="btn btn-lg btn-success">Let's go!</a>
 						</p>
 					</div>
 				</div>

@@ -23,6 +23,7 @@ body {
 .page-header{
 	margin-bottom: 0;
 	padding-top: 1px;
+	margin-top: 0;
 }
 
 .results{
@@ -32,4 +33,8 @@ body {
 .top-buttons
 {
     display:inline;
+}
+
+.panel-title{
+  color: #1A0DAB;
 }

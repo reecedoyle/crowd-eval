@@ -1,3 +1,7 @@
+<?php 
+	require_once('../inc/functions.php');
+	updateSession();
+?>
 <html>
 	<head>
 		<title>Crowd Eval</title>

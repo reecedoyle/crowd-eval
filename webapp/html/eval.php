@@ -1,6 +1,6 @@
 <?php 
-	error_reporting(E_ALL);
-	ini_set('display_errors', 1);
+	//error_reporting(E_ALL);
+	//ini_set('display_errors', 1);
 	require_once('../inc/functions.php');
 	//echo "Session before update: ",print_r($_SESSION, true),"<br>--------<br>";
 	updateSession();
@@ -22,6 +22,9 @@
 		<?php
 			//destroySession();
 			//echo "Session in body: ",print_r($_SESSION, true),"<br>--------<br>";
+			if (!isset($_SESSION['learn_more'])){
+				echo '<script>window.location.replace("not-ready.php");</script>';
+			}
 			if (!isset($_SESSION['topics'])){
 				try {
 					$conn = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass);
@@ -141,11 +144,13 @@
 				// display query
 				echo '<div class="topic" id="topic">';
 				echo '<form id="clickForm" name="clickForm" method="post" action="credits.php">'.
-						'<input type="hidden" name="topic" id="topic" value="'.$topic_id.'">';
+						'<input type="hidden" name="topic" id="topic" value="'.$topic_id.'">'.
+						'<input type="hidden" name="last" id="last" value="">';
 				foreach ($rankers as $key => $ranker) {
 					echo '<input type="hidden" name="'.$ranker.'" id="'.$ranker.'" value="">';
 				}
-				echo '<span class="btn-group pull-right" role="group">'.
+				echo '<span class="inline" style="font-size: 150%;">Question '.(30-count($topics)).' of 30</span>';
+				echo '<span class="btn-group pull-right inline" role="group">'.
 						'<button class="btn btn-info btn-lg" title="home" onclick="submitClicks(0);">' .
 									'<i class="fa fa-home"></i>' .
 							'</button>'.
@@ -205,14 +210,17 @@
 				"DuckDuckGo" : 0,
 				"Cloud" : 0,
 			};
+			lastRanker = "";
 			function recordClick(ranker) {
 				clicks[ranker] += 1;
+				lastRanker = ranker;
 				//document.getElementById(ranker.concat('clicks')).innerHTML = clicks[ranker];
 			}
 			function submitClicks(cont) { // do this manually for now
 				document.clickForm.UCL.value = clicks["UCL"];
 				document.clickForm.DuckDuckGo.value = clicks["DuckDuckGo"];
 				document.clickForm.Cloud.value = clicks["Cloud"];
+				document.clickForm.last.value = lastRanker;
 				var form = document.forms["clickForm"];
 				var el = document.createElement("input");
 				el.type = "hidden";

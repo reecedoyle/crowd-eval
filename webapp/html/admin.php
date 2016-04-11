@@ -18,6 +18,7 @@
 	</head>
 	<body>
 		<div class="container">
+			<br>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					Feedback
@@ -38,6 +39,48 @@
 									$conn = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass);
 									$sql = 'SELECT source, topic, credit
 													FROM Feedback
+													ORDER BY topic, source';
+									$stmt = $conn->prepare($sql);
+									$stmt->execute();
+									$feedback = $stmt->fetchAll(PDO::FETCH_ASSOC);
+								}
+								catch (PDOException $pe) {
+									die("Could not connect to the database $db_name: " . $pe->getMessage());
+								}
+
+								foreach ($feedback as $row) {
+									echo('<tr>');
+									echo('<td>' . $row['topic'] . '</td>');
+									echo('<td>' . $row['source'] . '</td>');
+									echo('<td>' . $row['credit'] . '</td>');
+									echo('</tr>');
+								}
+							?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<br>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					LastFeedback
+				</div>
+				<div class="panel-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Topic</th>
+								<th>Ranker</th>
+								<th>Credit</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+								// now get results
+								try {
+									$conn = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass);
+									$sql = 'SELECT source, topic, credit
+													FROM LastFeedback
 													ORDER BY topic, source';
 									$stmt = $conn->prepare($sql);
 									$stmt->execute();

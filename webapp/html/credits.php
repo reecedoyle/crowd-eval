@@ -1,6 +1,6 @@
 <?php 
-	error_reporting(E_ALL);
-	ini_set('display_errors', 1);
+	//error_reporting(E_ALL);
+	//ini_set('display_errors', 1);
 	require_once('../inc/functions.php');
 	//echo "Session before update: ",print_r($_SESSION, true),"<br>--------<br>";
 	updateSession();
@@ -20,6 +20,20 @@
 		<?php
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				$topic = $_POST['topic'];
+				$last_ranker = $_POST['last'];
+				// record the last clicked result's ranker
+				if (!empty($last_ranker)) {
+					$conn = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass);
+					$sql = 'INSERT INTO LastFeedback
+							(source, topic, credit) VALUES (:ranker, :topic, 1)
+							ON DUPLICATE KEY
+							UPDATE
+							credit = (@cur_credit := credit) + 1';
+					$stmt = $conn->prepare($sql);
+					$stmt->bindParam(':ranker', $last_ranker);
+					$stmt->bindParam(':topic', $topic);
+					$stmt->execute();
+				}				// now record most clicked ranker
 				$clicks = array( // point to current position in results for each ranker
 					"DuckDuckGo" => $_POST['DuckDuckGo'],
 					"UCL" => $_POST['UCL'],
@@ -48,12 +62,11 @@
 						continue;
 					}
 					try {
-						$conn = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass);
 						$sql = 'INSERT INTO Feedback
-										(source, topic, credit) VALUES (:ranker, :topic, :cred)
-										ON DUPLICATE KEY
-										UPDATE
-										credit = (@cur_credit := credit) + :cred';
+								(source, topic, credit) VALUES (:ranker, :topic, :cred)
+								ON DUPLICATE KEY
+								UPDATE
+								credit = (@cur_credit := credit) + :cred';
 						$stmt = $conn->prepare($sql);
 						$stmt->bindParam(':ranker', $ranker);
 						$stmt->bindParam(':topic', $topic);
