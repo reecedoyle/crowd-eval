@@ -22,7 +22,7 @@
 								<ul class="nav masthead-nav">
 									<li><a href="/">Home</a></li>
 									<li class="active"><a href="/eval.php">Evaluate</a></li>
-									<li><a href="#">Learn More</a></li>
+									<li><a href="/learn-more.php">Learn More</a></li>
 								</ul>
 							</nav>
 						</div>

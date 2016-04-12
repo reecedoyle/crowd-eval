@@ -33,8 +33,8 @@
 					</div>
 					<div class="inner cover">
 						<h1 class="cover-heading">So, how can you help us?</h1>
-						<p class="lead">You are going to be presented with a question; we would like you to find the answer by clicking the search engine results presented to you.<br>Easy, right?
-							<br><br>When you're done, make sure to save your choices by hitting:<br><i class="fa fa-arrow-right" style="color:#449D44;"></i> to <span style="color:#449D44;">keep going</span>,<br><i class="fa fa-home" style="color:#31B0D5;"></i> to <span style="color:#31B0D5;">head home</span></p>
+						<p class="lead">You are going to be presented with a question; we would like you to find the answer by clicking the search engine results presented to you.<br><br>Don't worry about telling us the answer,<br>we're just interested in how you found it.
+							<br><br>When you're done, make sure to save your progress by hitting:<br><i class="fa fa-arrow-right" style="color:#449D44;"></i> to <span style="color:#449D44;">keep going</span>,<br><i class="fa fa-home" style="color:#31B0D5;"></i> to <span style="color:#31B0D5;">head home</span></p>
 						<p class="lead">
 							<a href="/eval.php" class="btn btn-lg btn-success">I'm ready!</a>
 						</p>
