@@ -1,3 +1,5 @@
+#the html files scraped lacked a file extension. this needed to be fixed.
+#this script adds the html file extension to the scraped files.
 import os, sys, os.path
 
 set1 = 'D:\irdm scrape\set1\sites'

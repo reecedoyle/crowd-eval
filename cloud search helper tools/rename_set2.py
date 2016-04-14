@@ -1,3 +1,5 @@
+#similar procedure of renaming the second batch of html files that have no extensions
+#the file names in the second batch, overlap with the first, so names also have to be made unqiue
 import os, sys, os.path
 
 set1 = 'D:\irdm scrape\set1\sites'

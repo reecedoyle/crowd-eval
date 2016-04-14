@@ -10,7 +10,8 @@ topicNum = 0
 
 #write to csv
 with open('D:\\irdm scrape\\results.csv','w') as csvfile:
-	fieldnames = ['topic', 'rank', 'title', 'link', 'snippet']
+	#snippet refers to highlight
+	fieldnames = ['topic', 'rank', 'title', 'link', 'snippet'] 
 	writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 	writer.writeheader()
 	
@@ -42,7 +43,6 @@ with open('D:\\irdm scrape\\results.csv','w') as csvfile:
 			url_dict[str(doc['url'])]=1
 			
 			#write to the csv
-			#writer.writerow({'topic': str(topicNum), 'rank': str(count), 'title': doc['title'], 'link': doc['url'], 'snippet': h['highlights']["content"].replace("*","").encode('utf-8','replace')})
 			writer.writerow({'topic': str(topicNum), 'rank': str(count), 'title': doc['title'], 'link': doc['url'], 'snippet': h['highlights']["content"].encode('iso-8859-1', 'replace').decode('iso-8859-1', 'replace').replace("*","")})		
 			#controlling how many results to return per query
 			if count == 30:
